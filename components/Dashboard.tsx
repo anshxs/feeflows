@@ -1,9 +1,14 @@
 "use client";
+
 import Image from "next/image";
 import FeeStructure from "./FeeStructure";
 
 export default function Dashboard({ student }: { student: any }) {
   const placeholder = "/lo.png";
+
+  if (!student) {
+    return <div>Loading...</div>; // or some other fallback UI while student is loading
+  }
 
   const profileImage = student?.profile || placeholder;
   const school = student?.schools;
@@ -65,13 +70,12 @@ export default function Dashboard({ student }: { student: any }) {
       {student?.payment_status === "paid" ? (
         <p className="text-green-700 font-medium">No Due Fees 🎉</p>
       ) : (
-        <>
+        <div>
           {/* Fetch fee_structure dynamically on client side */}
+          {/* console.log(student.id, student.school_id); */}
           <FeeStructure studentId={student.id} schoolId={student.school_id} />
-        </>
+        </div>
       )}
     </div>
   );
 }
-// https://qbn2h8q7-3000.inc1.devtunnels.ms/
-// FeeStructure Component

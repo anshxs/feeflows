@@ -50,16 +50,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <Button
           variant="ghost"
           className="w-full justify-start flex gap-2"
-          onClick={() => router.push("/school/dashboard/teachers")}
+          onClick={() => router.push("/school/dashboard/students/attendance")}
         >
           <Hand /> Attendance
         </Button>
         <Button
           variant="ghost"
           className="w-full justify-start flex gap-2"
-          onClick={() => router.push("/school/dashboard/teachers")}
+          onClick={() => router.push("/school/dashboard/money")}
         >
-          <Banknote /> Fee Management
+          <Banknote /> Fee Campaigns
         </Button>
       </nav>
     </div>
@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </div>
 
       {/* Bottom Navbar for Mobile */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-[#e9e9e9ad] h-12 text-black flex justify-around items-center z-50">
+      <nav className="md:hidden fixed bottom-0 left-0 w-full bg-[#e9e9e9e7] h-12 text-black flex justify-around items-center z-50">
         <a href="/school/dashboard" className="hover:text-gray-300">
           <School />
         </a>
@@ -101,10 +101,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <a href="/school/dashboard/students" className="hover:text-gray-300">
           <Users />
         </a>
-        <a href="/school/dashboard/teachers" className="hover:text-gray-300">
+        <a href="/school/dashboard/students/attendance" className="hover:text-gray-300">
           <Hand />
         </a>
-        <a href="/school/dashboard/teachers" className="hover:text-gray-300">
+        <a href="/school/dashboard/money" className="hover:text-gray-300">
           <Banknote />
         </a>
         

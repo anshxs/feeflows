@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Trash, GraduationCap, CreditCard } from 'lucide-react';
+import { Trash, GraduationCap, CreditCard, Loader2 } from 'lucide-react';
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [newTeacher, setNewTeacher] = useState({
     name: '',
     stafftype: '',
@@ -27,12 +29,15 @@ export default function TeachersPage() {
   const [schoolId, setSchoolId] = useState<number | null>(null);
 
   const fetchTeachers = async () => {
+    setLoading(true);  // Set loading to true before fetching
     const { data } = await supabase
       .from('teachers')
       .select('*')
       .eq('school_id', schoolId);
     setTeachers(data || []);
+    setLoading(false);  // Set loading to false after fetching is complete
   };
+  
 
   useEffect(() => {
     const session = sessionStorage.getItem('schoolSession');
@@ -126,6 +131,13 @@ export default function TeachersPage() {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
+      {loading ? (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="h-10 w-10 animate-spin text-gray-500" />
+      </div>
+    ) : (
+      <>
+
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center justify-center w-8 h-8 rounded-lg gap-2 bg-[#f5f5f5]">
           <h2 className="text-[18px] font-bold text-black">{teachers.length}</h2></div>
@@ -296,10 +308,10 @@ export default function TeachersPage() {
             </div>
 
           <div className="flex justify-between gap-3"><div className='w-1/2'><p className='text-sm flex text-gray-500 gap-0.5'>{t.stafftype} {t.stafftype === "Teaching" && <a className='text-sm text-gray-500'>{t.classlevel}</a>}</p>
-          <div className='rounded-lg p-2 gap-1 flex flex-col'>
-          <p className="text-sm flex text-[#00aeff]"><span style={{fontWeight: 600}}>Acc Holder :</span> {t.account_holder}</p>
-          <p className="text-sm flex text-[#00aeff]"><span style={{fontWeight: 600}}>Acc No. :</span> {t.account_number}</p>
-          <p className="text-sm flex text-[#00aeff]"><span style={{fontWeight: 600}}>Bank :</span> {t.bank_name}</p></div>
+          <div className=' gap-1 flex flex-col'>
+          <p className="text-sm flex text-gray-600"><span style={{fontWeight: 600,color: '#3b82f6'}}>Acc Holder</span> {t.account_holder}</p>
+          <p className="text-sm flex text-gray-600"><span style={{fontWeight: 600,color: '#3b82f6'}}>Acc No.</span> {t.account_number}</p>
+          <p className="text-sm flex text-gray-600"><span style={{fontWeight: 600,color: '#3b82f6'}}>Bank</span> {t.bank_name}</p></div>
             </div>
             <div className="flex items-end w-1/2">
               <div className='flex flex-col gap-1'>
@@ -336,7 +348,8 @@ export default function TeachersPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      
+      </>
+      )}
     </div>
   );
 }

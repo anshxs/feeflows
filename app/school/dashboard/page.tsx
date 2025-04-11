@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import {MapPin, Phone, AtSign} from 'lucide-react';
+import MagicAttendance from '@/components/MagicComp';
 
 export default function SchoolProfile() {
   const [school, setSchool] = useState<any>(null);
@@ -9,12 +10,14 @@ export default function SchoolProfile() {
     const session = sessionStorage.getItem('schoolSession');
     if (session) {
       setSchool(JSON.parse(session));
+      console.log(session);
     }
   }, []);
 
   if (!school) return null;
 
   return (
+    <>
     <div className="flex items-center gap-6 mb-6 p-6 bg-[#e9e9e9ad] rounded-2xl border">
       <div className="flex items-center space-x-4">
         <img
@@ -32,5 +35,7 @@ export default function SchoolProfile() {
         </div>
       </div>
     </div>
+    <MagicAttendance/>
+    </>
   );
 }

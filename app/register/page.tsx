@@ -115,10 +115,10 @@ export default function RegisterForm() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#f9fafa]">
-        <div className="p-6 w-96 bg-[#f9fafa] rounded-lg">
+        <div className="p-6 w-full items-center justify-center bg-[#f9fafa] rounded-lg">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-10 rounded-3xl shadow-2xl max-w-2xl w-full grid"
+        className="bg-[#f9fafa] p-10 rounded-3xl max-w-2xl w-full grid"
       >
         <h1 className="text-4xl font-semibold text-center text-gray-900 mb-4">
           School Registration Form
