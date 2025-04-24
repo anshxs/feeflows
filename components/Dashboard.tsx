@@ -3,7 +3,27 @@
 import Image from "next/image";
 import FeeStructure from "./FeeStructure";
 
-export default function Dashboard({ student }: { student: any }) {
+interface School {
+  image?: string;
+  name: string;
+  branch: string;
+}
+
+interface Student {
+  id: string;
+  name: string;
+  admission_id: string;
+  class: string;
+  section: string;
+  email?: string;
+  payment_status: "paid" | "unpaid";
+  profile?: string;
+  school_id: string;
+  school: School;
+}
+
+
+export default function Dashboard({ student }: { student: Student}) {
   const placeholder = "/lo.png";
 
   if (!student) {
@@ -11,7 +31,7 @@ export default function Dashboard({ student }: { student: any }) {
   }
 
   const profileImage = student?.profile || placeholder;
-  const school = student?.schools;
+  const school = student?.school;
 
   return (
     <div className="p-4 max-w-3xl mx-auto">

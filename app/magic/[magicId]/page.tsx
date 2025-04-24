@@ -7,15 +7,28 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 
+interface MagicLink {
+  id: string;
+  magic_pass: string;
+  school_id: string;
+  class: string;
+  section: string;
+}
+
+interface Student {
+  id: string;
+  name: string;
+}
+
 export default function MagicAttendancePage() {
   const { magicId } = useParams();
-  const [passcode, setPasscode] = useState('');
-  const [authenticated, setAuthenticated] = useState(false);
-  const [magicLink, setMagicLink] = useState<any>(null);
-  const [students, setStudents] = useState<any[]>([]);
+  const [passcode, setPasscode] = useState<string>('');
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+  const [magicLink, setMagicLink] = useState<MagicLink | null>(null);
+  const [students, setStudents] = useState<Student[]>([]);
   const [presentMap, setPresentMap] = useState<{ [id: string]: boolean }>({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
   const today = format(new Date(), 'dd/MM/yyyy');
 
   const handlePasscodeSubmit = async () => {
@@ -109,74 +122,69 @@ export default function MagicAttendancePage() {
     console.log("Starting handleSave...");
   
     for (const student of students) {
-      if (presentMap[student.id]) {
-        console.log(`Processing student: ${student.name} (${student.id})`);
+      const isPresent = presentMap[student.id] || false;
   
-        // Step 1: Fetch existing attendance data
-        const { data: existing, error: fetchError } = await supabase
-          .from('attendance')
-          .select('attendance_data')
-          .eq('admission_id', student.id)
-          .maybeSingle();
+      // Step 1: Fetch existing attendance data
+      const { data: existing, error: fetchError } = await supabase
+        .from('attendance')
+        .select('attendance_data')
+        .eq('admission_id', student.id)
+        .maybeSingle();
   
-        if (fetchError) {
-          console.error(`Fetch error for ${student.name}:`, fetchError);
-          continue;
-        }
+      if (fetchError) {
+        console.error(`Fetch error for ${student.name}:`, fetchError);
+        continue;
+      }
   
-        console.log(`Existing attendance data for ${student.name}:`, existing);
+      let updatedData = { [today]: isPresent };
   
-        let updatedData = { [today]: true };
+      if (existing?.attendance_data) {
+        updatedData = {
+          ...existing.attendance_data,
+          [today]: isPresent,
+        };
+      }
   
-        if (existing?.attendance_data) {
-          updatedData = {
-            ...existing.attendance_data,
-            [today]: true,
-          };
-        }
+      try {
+        if (existing) {
+          const { error: updateError } = await supabase
+            .from('attendance')
+            .update({
+              attendance_data: updatedData,
+            })
+            .eq('admission_id', student.id);
   
-        try {
-          if (existing) {
-            console.log(`Updating record for ${student.name}`);
-            const { error: updateError } = await supabase
-              .from('attendance')
-              .update({
-                attendance_data: updatedData,
-              })
-              .eq('admission_id', student.id);
-  
-            if (updateError) {
-              console.error(`Update error for ${student.name}:`, updateError);
-            } else {
-              console.log(`Updated successfully for ${student.name}`);
-            }
+          if (updateError) {
+            console.error(`Update error for ${student.name}:`, updateError);
           } else {
-            console.log(`Inserting record for ${student.name}`);
-            const { error: insertError } = await supabase
-              .from('attendance')
-              .insert({
-                admission_id: student.id,
-                school_id: magicLink.school_id,
-                class: magicLink.class,
-                section: magicLink.section,
-                attendance_data: updatedData,
-              });
-  
-            if (insertError) {
-              console.error(`Insert error for ${student.name}:`, insertError);
-            } else {
-              console.log(`Inserted successfully for ${student.name}`);
-            }
+            console.log(`Updated successfully for ${student.name}`);
           }
-        } catch (err) {
-          console.error(`Unexpected error for ${student.name}:`, err);
+        } else {
+          const { error: insertError } = await supabase
+            .from('attendance')
+            .insert({
+              admission_id: student.id,
+              school_id: magicLink!.school_id,
+              class: magicLink!.class,
+              section: magicLink!.section,
+              attendance_data: updatedData,
+            });
+  
+          if (insertError) {
+            console.error(`Insert error for ${student.name}:`, insertError);
+          } else {
+            console.log(`Inserted successfully for ${student.name}`);
+          }
         }
+      } catch (err) {
+        console.error(`Unexpected error for ${student.name}:`, err);
       }
     }
   
     console.log("handleSave complete.");
     alert('Attendance saved!');
   };
+  
   
 
   if (!authenticated) {

@@ -75,11 +75,23 @@ export default function StudentsPage() {
 
   async function addStudent() {
     if (!schoolId) return;
-    await supabase.from("students").insert([{ ...newStudent, sxid: schoolId, cr: false }]);
+  
+    const mockDefaults: Partial<Student> = {
+      class: "1st"
+    };
+  
+    const studentToAdd = {
+      ...mockDefaults,
+      ...newStudent,
+      sxid: schoolId,
+    };
+  
+    await supabase.from("students").insert([studentToAdd]);
     fetchStudents();
-    console.log("Student added successfully:", newStudent,schoolId, false);
+    console.log("Student added successfully:", studentToAdd);
     setNewStudent({});
   }
+  
 
   async function updateStudent() {
     if (editStudent.id) {
@@ -374,7 +386,7 @@ export default function StudentsPage() {
             <div className="w-1/2">
               <label className="block text-sm text-gray-600">Class </label>
               <select
-                value={editStudent.class || ''}
+                value={editStudent.class || '1st'}
                 className="w-full p-2 border rounded-lg bg-[#ffffff]"
                 onChange={(e) => setEditStudent({ ...editStudent, class: e.target.value })}
               >

@@ -94,12 +94,15 @@ export default function RegisterForm() {
   
       // ✅ Success — show green tick
       setSubmitted(true);
-    } catch (err: any) {
-      console.error('Unexpected error:', err.message || err);
-      alert('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    } catch (err: unknown) {
+  if (err instanceof Error) {
+    console.error('Unexpected error:', err.message);
+  } else {
+    console.error('Unexpected error:', err);
+  }
+  alert('Something went wrong. Please try again.');
+}
+
   };
   
 
@@ -108,14 +111,16 @@ export default function RegisterForm() {
       <div className="flex flex-col items-center justify-center h-screen text-center">
         <CheckCircle color="green" className="text-green-500 w-16 h-16 mb-4" />
         <h2 className="text-2xl font-semibold text-gray-800">Your request has been successfully registered</h2>
-        <p className="text-gray-600">We will try to reach you out as soon as possible.</p>
+        <p className="text-gray-600">We will try to reach you out as soon as possible.&apos;</p>
+
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#f9fafa]">
-        <div className="p-6 w-full items-center justify-center bg-[#f9fafa] rounded-lg">
+        <div className="p-6 w-full flex justify-center bg-[#f9fafa] rounded-lg">
+
       <form
         onSubmit={handleSubmit}
         className="bg-[#f9fafa] p-10 rounded-3xl max-w-2xl w-full grid"
@@ -181,10 +186,10 @@ export default function RegisterForm() {
         />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600 text-sm">Principal's Name</label>
+          <label className="block text-gray-600 text-sm">Principal&apos;s Name</label>
         <input
           name="principalName"
-          placeholder="Principal's Name"
+          placeholder="Principal"
           onChange={handleChange}
           value={form.principalName}
           className="w-full p-2 border rounded-lg bg-[#ffffff]"
@@ -192,7 +197,7 @@ export default function RegisterForm() {
         />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600 text-sm">Registrar's Name</label>
+          <label className="block text-gray-600 text-sm">Registrar&apos;s Name</label>
         <input
           name="registrarName"
           placeholder="Form Registrar Name"
@@ -203,7 +208,7 @@ export default function RegisterForm() {
         />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600 text-sm">Registrar's Post</label>
+          <label className="block text-gray-600 text-sm">Registrar&apos;s Post</label>
         <input
           name="registrarPost"
           placeholder="Registrar's Post in School"
@@ -213,7 +218,7 @@ export default function RegisterForm() {
           required
         />
         </div><div className="mb-4">
-        <label className="block text-gray-600 text-sm">Registrar's Mobile</label>
+        <label className="block text-gray-600 text-sm">Registrar&apos;s Mobile</label>
 
         <input
           name="registrarMobile"
@@ -225,7 +230,7 @@ export default function RegisterForm() {
         />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-600 text-sm">School's Logo</label>
+          <label className="block text-gray-600 text-sm">School&apos;s Logo</label>
         <input
           type="file"
           name="image"

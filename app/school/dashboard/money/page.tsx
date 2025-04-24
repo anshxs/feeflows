@@ -17,11 +17,18 @@ type Charge = {
     title: string
     amount: string
 }
+type FeeDescription = {
+  title: string;
+  desc: Record<string, number>;
+}
 type CampaignMap = {
     [title: string]: {
         desc: Record<string, number>,
         studentIds: string[]
     }
+}
+type Campaign = FeeDescription & {
+  studentIds: string[];
 }
 type StudentInfo = {
     id: string
@@ -44,7 +51,7 @@ export default function FeeManagement() {
     const [selectedCampaignIndex, setSelectedCampaignIndex] = useState<number | null>(null)
     const [defaultersDialogOpen, setDefaultersDialogOpen] = useState(false)
     const [currentDefaulters, setCurrentDefaulters] = useState<StudentInfo[]>([])
-    const [campaigns, setCampaigns] = useState<any[]>([])
+    const [campaigns, setCampaigns] = useState<Campaign[]>([])
     const [schoolId, setSchoolId] = useState<number | null>(null)
     const [fetching, setFetching] = useState(true)
 
@@ -229,7 +236,7 @@ export default function FeeManagement() {
             const studentClass = studentClassMap[row.student_id]
             if (!selectedClasses.includes(studentClass)) continue
 
-            let prev: any[] = []
+            let prev: FeeDescription[] = []
             try {
                 const parsed = JSON.parse(row.description || '[]')
                 prev = Array.isArray(parsed) ? parsed : [parsed]
@@ -456,7 +463,7 @@ export default function FeeManagement() {
                                 }
 
                                 for (const row of rows) {
-                                    let prev: any[] = []
+                                    let prev: FeeDescription[] = []
                                     try {
                                         const parsed = JSON.parse(row.description || '[]')
                                         prev = Array.isArray(parsed) ? parsed : [parsed]

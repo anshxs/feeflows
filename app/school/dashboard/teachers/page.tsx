@@ -5,8 +5,29 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Button } from "@/components/ui/button"
 import { Trash, GraduationCap, CreditCard, Loader2 } from 'lucide-react';
 
+type Teacher = {
+  id: number;
+  name: string;
+  stafftype: string;
+  classlevel: string;
+  salary: string;
+  account_holder: string;
+  account_number: string;
+  ifsc_code: string;
+  bank_name: string;
+  branch_name: string;
+  bank_address: string;
+  bank_contact: string;
+  bank_city: string;
+  bank_district: string;
+  bank_state: string;
+  new_salary?: string; // Optional field for the updated salary
+};
+
+
 export default function TeachersPage() {
-  const [teachers, setTeachers] = useState<any[]>([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+
   const [loading, setLoading] = useState<boolean>(true);
 
   const [newTeacher, setNewTeacher] = useState({
@@ -142,7 +163,7 @@ export default function TeachersPage() {
         <div className="flex items-center justify-center w-8 h-8 rounded-lg gap-2 bg-[#f5f5f5]">
           <h2 className="text-[18px] font-bold text-black">{teachers.length}</h2></div>
           <div className="flex items-center gap-2">
-            <Button className='bg-slate-100' variant='ghost'>Pay Salary</Button>
+            <Button className='bg-slate-100' disabled variant='ghost'>Pay Salary</Button>
         <Dialog>
           <DialogTrigger asChild>
             <Button>Add Teacher</Button>
@@ -207,7 +228,7 @@ export default function TeachersPage() {
               <hr />
               <div className="flex gap-2 mb-3">
                 <div className="w-1/2">
-                  <label className="block text-gray-600 text-sm">Acc Holder's Name</label>
+                  <label className="block text-gray-600 text-sm">Acc Holder&apos;s Name</label>
 
                   <input
                     type="text"
@@ -326,11 +347,11 @@ export default function TeachersPage() {
                 onChange={(e) => (t.new_salary = e.target.value)}
               />
               <Button
-                className="rounded-tr-lg rounded-tl-none rounded-bl-none rounded-br-lg h-10"
-                onClick={() => handleSalaryUpdate(t.id, t.new_salary)}
-              >
-                Save
-              </Button></div>
+  className="rounded-tr-lg rounded-tl-none rounded-bl-none rounded-br-lg h-10"
+  onClick={() => handleSalaryUpdate(t.id, t.new_salary || "")}  // Fallback to an empty string
+>
+  Save
+</Button></div>
               </div>
             </div>
           </div>

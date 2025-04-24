@@ -1,10 +1,22 @@
 'use client';
 import { useEffect, useState } from 'react';
-import {MapPin, Phone, AtSign} from 'lucide-react';
+import { MapPin, Phone, AtSign } from 'lucide-react';
 import MagicAttendance from '@/components/MagicComp';
+import Image from 'next/image';
+
+// Define a type for the school data
+interface School {
+  name: string;
+  branch: string;
+  city: string;
+  country: string;
+  mobile_number: string;
+  username: string;
+  image?: string; // Optional image field
+}
 
 export default function SchoolProfile() {
-  const [school, setSchool] = useState<any>(null);
+  const [school, setSchool] = useState<School | null>(null);
 
   useEffect(() => {
     const session = sessionStorage.getItem('schoolSession');
@@ -20,10 +32,12 @@ export default function SchoolProfile() {
     <>
     <div className="flex items-center gap-6 mb-6 p-6 bg-[#e9e9e9ad] rounded-2xl border">
       <div className="flex items-center space-x-4">
-        <img
+        <Image
           src={school.image || '/lo.png'}
           alt="school profile"
-          className="w-20 h-20 rounded-full object-cover"
+          width={80}  // Adjust the size as needed
+          height={80} // Adjust the size as needed
+          className="rounded-full object-cover"
         />
         <div className="space-y-1">
           <h2 className="text-xl font-bold">{school.name}</h2>
@@ -35,7 +49,9 @@ export default function SchoolProfile() {
         </div>
       </div>
     </div>
+    <div className='max-w-screen overflow-x-auto'>
     <MagicAttendance/>
+    </div>
     </>
   );
 }

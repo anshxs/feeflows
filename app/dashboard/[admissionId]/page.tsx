@@ -1,14 +1,6 @@
-// app/dashboard/[admissionId]/page.tsx
 import { Loader2 } from "lucide-react";
 import dynamic from "next/dynamic";
-import {FC} from 'react'
 import { supabase } from "@/lib/supabase";
-
-interface PageProps {
-  params: {
-    admissionId: string;
-  }
-}
 
 const Dashboard = dynamic(() => import("../../../components/Dashboard"), {
   loading: () => (
@@ -18,20 +10,19 @@ const Dashboard = dynamic(() => import("../../../components/Dashboard"), {
   ),
 });
 
-const Page: FC<PageProps> = async ({ params }) => {
-  const {admissionId} = await params;
+export default async function Page({ params }: { params: Promise<{ admissionId: string }> }) {
+  const resolvedParams = await params;
+  const { admissionId } = resolvedParams;
 
   const { data: student, error } = await supabase
-  .from("students")
-  .select("*, schools!students_school_id_fkey(*)")  // Explicitly specify the relationship
-  .eq("admission_id", admissionId)
-  .single();
+    .from("students")
+    .select("*, schools!students_school_id_fkey(*)")
+    .eq("admission_id", admissionId)
+    .single();
 
-if (error || !student) {
-  return <div>Error loading student data</div>;
+  if (error || !student) {
+    return <div>Error loading student data</div>;
+  }
+
+  return <Dashboard student={student} />;
 }
-
-return <Dashboard student={student} />;
-}
-
-export default Page;

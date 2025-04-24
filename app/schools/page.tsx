@@ -37,7 +37,7 @@ export default function SchoolsPage() {
   }, [])
 
   return (
-    <div className="px-6 py-10 lg:px-20 bg-gray-100">
+    <div className="px-6 py-10 lg:px-20 max-h-full min-h-screen bg-gray-100">
       <h1 className="text-4xl font-bold mb-10 text-center text-black">
         Schools Registered With Us
       </h1>
@@ -58,7 +58,7 @@ export default function SchoolsPage() {
               )}
             >
               <img
-                src={school.image || '/placeholder.jpg'}
+                src={school.image || '/lo.png'}
                 alt={school.name}
                 className="w-full h-48 object-cover rounded-t-2xl"
               />
