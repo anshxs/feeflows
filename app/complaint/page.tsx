@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"; // Make sure you're using supabase client
+import { supabase } from "@/lib/supabase.ts"; // Make sure you're using supabase client
 import { toast } from "sonner";
 
 interface School {
@@ -17,7 +17,7 @@ interface School {
 }
 
 export default function ComplaintForm() {
-  const supabase = createClientComponentClient();
+  
   const router = useRouter();
 
   const [schools, setSchools] = useState<School[]>([]);
