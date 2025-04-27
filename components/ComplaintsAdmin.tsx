@@ -57,8 +57,8 @@ export default function ComplaintsAdmin() {
   }
 
   return (
-    <div className="p-4 bg-yellow-100 rounded-2xl shadow-md">
-      <h2 className="text-xl font-bold mb-4 text-center">Complaints</h2>
+    <div className="p-4 bg-[#ffcc00] rounded-2xl shadow-md">
+      <h2 className="text-xl font-bold mb-4 px-4">Complaints</h2>
 
       <div className="flex space-x-4 overflow-x-auto">
         {complaints.map((complaint) => (
