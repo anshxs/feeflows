@@ -1,4 +1,3 @@
-// components/ComplaintForm.tsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -7,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { supabase } from "@/lib/supabase"; // Make sure you're using supabase client
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { toast } from "sonner";
+import { Loader2, CheckCircle2 } from "lucide-react"; // Importing loader and check icon
 
 interface School {
   id: string;
@@ -17,7 +17,7 @@ interface School {
 }
 
 export default function ComplaintForm() {
-  
+  const supabase = createClientComponentClient();
   const router = useRouter();
 
   const [schools, setSchools] = useState<School[]>([]);
@@ -55,20 +55,31 @@ export default function ComplaintForm() {
     }
 
     // Success
-    setSuccess(true);
     setTimeout(() => {
-      setSuccess(false);
-      router.push("/");
-    }, 2000);
+      setSuccess(true);
+      setSubmitting(false);
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    }, 500); // a slight delay so loader spin looks natural
   };
 
+  if (success) {
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen bg-green-500 text-white transition-all">
+        <CheckCircle2 className="w-20 h-20 mb-6" />
+        <h1 className="text-2xl font-bold text-center">Your complaint has been successfully sent to your principal!</h1>
+      </div>
+    );
+  }
+
   return (
-    <div className={`flex justify-center items-center min-h-screen ${success ? "bg-green-500" : "bg-white"} transition-all`}>
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
+    <div className="flex justify-center items-center min-h-screen bg-[#f9fafa]">
+      <div className="w-full max-w-md bg-white p-8 rounded-2xl">
         <h1 className="text-2xl font-bold mb-6 text-center">Complaint Box</h1>
 
         <Select onValueChange={(value) => setSelectedSxid(value)}>
-          <SelectTrigger>
+          <SelectTrigger className="w-full p-2 border rounded-lg bg-[#ffffff]">
             <SelectValue placeholder="Choose School" />
           </SelectTrigger>
           <SelectContent>
@@ -81,7 +92,7 @@ export default function ComplaintForm() {
         </Select>
 
         <Input
-          className="mt-4"
+          className="w-full p-2 border mt-1 rounded-lg bg-[#ffffff]"
           placeholder="Complaint Subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
@@ -95,15 +106,13 @@ export default function ComplaintForm() {
         />
 
         <Button onClick={handleSubmit} className="w-full mt-6" disabled={submitting}>
-          Submit
+          {submitting ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            "Submit"
+          )}
         </Button>
-
-        {success && (
-          <div className="text-center mt-4 text-white text-lg font-semibold">
-            Complaint Successfully Sent!
-          </div>
-        )}
       </div>
     </div>
   );
-}
+      }
