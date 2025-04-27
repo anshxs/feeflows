@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { supabase } from "@/lib/supabase.ts"; // Make sure you're using supabase client
+import { supabase } from "@/lib/supabase"; // Make sure you're using supabase client
 import { toast } from "sonner";
 
 interface School {
