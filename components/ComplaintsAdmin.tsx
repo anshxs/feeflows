@@ -68,7 +68,7 @@ export default function ComplaintsAdmin() {
 
             <Dialog open={openDialog} onOpenChange={setOpenDialog}>
               <DialogTrigger asChild>
-                <Button variant="destructive" cl onClick={() => setSelectedId(complaint.id)}>
+                <Button variant="destructive" onClick={() => setSelectedId(complaint.id)}>
                   Dismiss
                 </Button>
               </DialogTrigger>
