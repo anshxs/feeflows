@@ -62,13 +62,13 @@ export default function ComplaintsAdmin() {
 
       <div className="flex space-x-4 overflow-x-auto">
         {complaints.map((complaint) => (
-          <Card key={complaint.id} className="min-w-[250px] h-[200px] bg-[#ff9966] flex flex-col justify-between">
+          <Card key={complaint.id} className="min-w-[250px] p-4 bg-[#ff9966] flex flex-col justify-between">
             <CardHeader className="font-semibold">{complaint.subject}</CardHeader>
             <CardContent className="text-sm">{complaint.description}</CardContent>
 
             <Dialog open={openDialog} onOpenChange={setOpenDialog}>
               <DialogTrigger asChild>
-                <Button variant="destructive" onClick={() => setSelectedId(complaint.id)}>
+                <Button variant="destructive" cl onClick={() => setSelectedId(complaint.id)}>
                   Dismiss
                 </Button>
               </DialogTrigger>
