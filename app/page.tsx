@@ -68,7 +68,7 @@ export default function LoginPage() {
         <div className="absolute top-5 right-5">
   <Button
     variant="ghost"
-    className="text-black border-b hover:bg-transparent"
+    className="text-black border-b bg-white"
     onClick={() => router.push("/complaint")}
   >
     Complaint Box
