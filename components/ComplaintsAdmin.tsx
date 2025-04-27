@@ -15,7 +15,7 @@ interface Complaint {
 }
 
 export default function ComplaintsAdmin() {
-  const supabase = createClientComponentClient();
+  
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
