@@ -75,11 +75,11 @@ export default function ComplaintForm() {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#f9fafa]">
-      <div className="w-full max-w-md bg-white p-8 rounded-2xl">
+      <div className="w-full max-w-md bg-[#f9fafa] p-8 rounded-2xl">
         <h1 className="text-2xl font-bold mb-6 text-center">Complaint Box</h1>
 
         <Select onValueChange={(value) => setSelectedSxid(value)}>
-          <SelectTrigger className="w-full p-2 border rounded-lg bg-[#ffffff]">
+          <SelectTrigger className="w-full p-2 border rounded-lg bg-[#ffffff] mb-3">
             <SelectValue placeholder="Choose School" />
           </SelectTrigger>
           <SelectContent>
