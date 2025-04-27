@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { MapPin, Phone, AtSign } from 'lucide-react';
 import MagicAttendance from '@/components/MagicComp';
+import ComplaintsAdmin from '@/components/ComplaintsAdmin';
 import Image from 'next/image';
 
 // Define a type for the school data
@@ -50,6 +51,7 @@ export default function SchoolProfile() {
       </div>
     </div>
     <div className='max-w-screen overflow-x-auto'>
+      <ComplaintsAdmin/>
     <MagicAttendance/>
     </div>
     </>
