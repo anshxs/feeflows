@@ -79,7 +79,7 @@ export default function ComplaintForm() {
         <h1 className="text-2xl font-bold mb-6 text-center">Complaint Box</h1>
 
         <Select onValueChange={(value) => setSelectedSxid(value)}>
-          <SelectTrigger className="w-full p-2 border rounded-lg bg-[#ffffff] mb-3">
+          <SelectTrigger className="w-full p-2 border rounded-lg bg-[#ffffff] h-12 mb-3">
             <SelectValue placeholder="Choose School" />
           </SelectTrigger>
           <SelectContent>
@@ -92,20 +92,20 @@ export default function ComplaintForm() {
         </Select>
 
         <Input
-          className="w-full p-2 border mt-1 rounded-lg bg-[#ffffff]"
+          className="w-full p-2 border mt-1 h-12 rounded-lg bg-[#ffffff]"
           placeholder="Complaint Subject"
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
         />
 
         <Textarea
-          className="mt-4"
+          className="mt-4 bg-white"
           placeholder="Write Complaint Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
 
-        <Button onClick={handleSubmit} className="w-full mt-6" disabled={submitting}>
+        <Button onClick={handleSubmit} className="w-full h-10 mt-6" disabled={submitting}>
           {submitting ? (
             <Loader2 className="w-5 h-5 animate-spin" />
           ) : (
