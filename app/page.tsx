@@ -65,6 +65,16 @@ export default function LoginPage() {
           <Image src="/lo.png" alt="Logo" width={48} height={48} />
         </div>
 
+        <div className="absolute top-5 right-5">
+  <Button
+    variant="ghost"
+    className="text-gray-700 border-none hover:bg-transparent"
+    onClick={() => router.push("/complaint")}
+  >
+    Complaint Box
+  </Button>
+</div>
+
         {/* Login Form */}
         <div className="bg-[#f9fafa] rounded-lg p-6 w-96">
           <h2 className="text-xl font-semibold text-center mb-4">Login Form</h2>
